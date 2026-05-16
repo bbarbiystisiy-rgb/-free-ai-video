@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>„‰’… ’‰«⁄… «·›ÌœÌÊ »«·–ﬂ«¡ «·«’ÿ‰«⁄Ì</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { display: flex; height: 100vh; background-color: #121212; color: #fff; }
+        
+        /* «·ﬁ«∆„… «·Ã«‰»Ì… ··‘Œ’Ì«  */
+        .sidebar { width: 280px; background-color: #1e1e1e; padding: 20px; border-left: 1px solid #2d2d2d; display: flex; flex-direction: column; gap: 15px; }
+        .sidebar h3 { font-size: 18px; margin-bottom: 10px; color: #00adb5; border-bottom: 2px solid #2d2d2d; padding-bottom: 10px; }
+        .char-container { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+        .char-card { background: #252525; padding: 12px; border-radius: 10px; cursor: pointer; text-align: center; border: 2px solid transparent; transition: 0.3s; display: flex; align-items: center; gap: 15px; }
+        .char-card:hover { background: #2d2d2d; }
+        .char-card.active { border-color: #00adb5; background: #2d2d2d; }
+        .char-avatar { width: 45px; height: 45px; background: #444; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+
+        /* «·„‰ÿﬁ… «·—∆Ì”Ì… */
+        .main-content { flex: 1; padding: 30px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
+        h1 { font-size: 26px; color: #fff; }
+        
+        /* ’‰œÊﬁ «·≈œŒ«· */
+        .input-section { background: #1e1e1e; padding: 25px; border-radius: 12px; display: flex; flex-direction: column; gap: 15px; border: 1px solid #2d2d2d; }
+        textarea { width: 100%; height: 100px; background: #252525; border: 1px solid #333; border-radius: 8px; color: #fff; padding: 15px; resize: none; font-size: 16px; outline: none; transition: 0.3s; }
+        textarea:focus { border-color: #00adb5; }
+        
+        /* «·” «Ì·«  */
+        .style-group { display: flex; flex-direction: column; gap: 8px; }
+        .styles-container { display: flex; gap: 10px; flex-wrap: wrap; }
+        .style-btn { background: #252525; border: 1px solid #333; color: #fff; padding: 8px 18px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-size: 14px; }
+        .style-btn:hover { background: #2d2d2d; }
+        .style-btn.active { background: #00adb5; border-color: #00adb5; font-weight: bold; }
+        
+        /* “— «· Ê·Ìœ */
+        .gen-btn { background: #00adb5; color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .gen-btn:hover { background: #008c95; }
+
+        /* „‰ÿﬁ… ⁄—÷ «·›ÌœÌÊ */
+        .preview-section { background: #1e1e1e; border-radius: 12px; flex: 1; display: flex; justify-content: center; align-items: center; border: 2px dashed #333; min-height: 300px; position: relative; }
+        .video-placeholder { color: #666; font-size: 16px; text-align: center; }
+        
+        /*  √ÀÌ— «· Õ„Ì· (Loading) */
+        .loader { display: none; border: 4px solid #f3f3f3; border-top: 4px solid #00adb5; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-box { display: flex; flex-direction: column; align-items: center; }
+    </style>
+</head>
+<body>
+
+    <!-- «·ﬁ«∆„… «·Ã«‰»Ì… ··‘Œ’Ì«  -->
+    <div class="sidebar">
+        <h3>1. «Œ — «·‘Œ’Ì…</h3>
+        <div class="char-container">
+            <div class="char-card active" data-char="—«∆œ ›÷«¡">
+                <div class="char-avatar">??û??</div>
+                <span>—«∆œ ›÷«¡</span>
+            </div>
+            <div class="char-card" data-char="—Ã· √⁄„«·">
+                <div class="char-avatar">??</div>
+                <span>—Ã· √⁄„«·</span>
+            </div>
+            <div class="char-card" data-char="› «… √‰„Ì">
+                <div class="char-avatar">??</div>
+                <span>› «… √‰„Ì</span>
+            </div>
+            <div class="char-card" data-char="—Ê»Ê  ¬·Ì">
+                <div class="char-avatar">??</div>
+                <span>—Ê»Ê  ¬·Ì</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- «·„‰ÿﬁ… «·—∆Ì”Ì… -->
+    <div class="main-content">
+        <h1>’«‰⁄ «·›ÌœÌÊÂ«  »«·–ﬂ«¡ «·«’ÿ‰«⁄Ì «·„Ã«‰Ì</h1>
+        
+        <div class="input-section">
+            <h3>2. «ﬂ » „«–«  ›⁄· «·‘Œ’Ì…</h3>
+            <textarea id="promptInput" placeholder="«ﬂ » «·”Ì‰«—ÌÊ Â‰«... („À«·: Ì—ﬂ÷ ›Ì ‘Ê«—⁄ „œÌ‰… „” ﬁ»·Ì… „·Ì∆… »√‰Ê«— «·‰ÌÊ‰)"></textarea>
+            
+            <div class="style-group">
+                <h3>3. «Œ — «·” «Ì·</h3>
+                <div class="styles-container">
+                    <button class="style-btn active" data-style="Cinematic">”Ì‰„«∆Ì ??</button>
+                    <button class="style-btn" data-style="Anime">√‰„Ì ??</button>
+                    <button class="style-btn" data-style="3D Pixar">À·«ÀÌ «·√»⁄«œ ??</button>
+                    <button class="style-btn" data-style="Cyberpunk">”«Ì»—»«‰ﬂ ?</button>
+                </div>
+            </div>
+            
+            <button class="gen-btn" id="generateBtn"> Ê·Ìœ «·›ÌœÌÊ «·¬‰ ?</button>
+        </div>
+
+        <!-- „‰ÿﬁ… «·⁄—÷ -->
+        <div class="preview-section" id="previewSection">
+            <div class="video-placeholder" id="placeholderText">”ÌŸÂ— «·›ÌœÌÊ «·Œ«’ »ﬂ Â‰«...</div>
+            <div class="loading-box" id="loadingBox" style="display: none;">
+                <div class="loader"></div>
+                <p>Ã«—Ì œ„Ã «·‘Œ’Ì… Ê«·” «Ì· Ê Ê·Ìœ «·›ÌœÌÊ „Ã«‰«...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ﬂÊœ  ‘€Ì· «·Ê«ÃÂ… Ê ›«⁄·Â«
+        let selectedCharacter = "—«∆œ ›÷«¡";
+        let selectedStyle = "Cinematic";
+
+        //  »œÌ· «·‘Œ’Ì« 
+        document.querySelectorAll('.char-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.char-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                selectedCharacter = card.getAttribute('data-char');
+            });
+        });
+
+        //  »œÌ· «·” «Ì·« 
+        document.querySelectorAll('.style-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedStyle = btn.getAttribute('data-style');
+            });
+        });
+
+        // ⁄‰œ «·÷€ÿ ⁄·Ï “— «· Ê·Ìœ
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            const userPrompt = document.getElementById('promptInput').value;
+            if(!userPrompt) {
+                alert("„‰ ›÷·ﬂ «ﬂ » Ê’›« √Ê·« ·Ã⁄· «·‘Œ’Ì…   Õ—ﬂ!");
+                return;
+            }
+
+            // ≈Œ›«¡ «·‰’ «·ﬁœÌ„ Ê≈ŸÂ«— «· Õ„Ì·
+            document.getElementById('placeholderText').style.display = 'none';
+            document.getElementById('loadingBox').style.display = 'flex';
+
+            // «·Ê’› «·‰Â«∆Ì «·„œ„Ã »Ì‰ «·‘Œ’Ì… Ê«·” «Ì· Êÿ·» «·„” Œœ„
+            const fullPrompt = `${selectedCharacter}, ${userPrompt}, in ${selectedStyle} style.`;
+            console.log("«·Ê’› «·„—”· ··–ﬂ«¡ «·«’ÿ‰«⁄Ì: ", fullPrompt);
+
+            // „Õ«ﬂ«… ”—›— „Ã«‰Ì (Â‰‰ Ÿ— 4 ÀÊ«‰Ì Ê‰ÿ·⁄ ›ÌœÌÊ  Ã—Ì»Ì)
+            setTimeout(() => {
+                document.getElementById('loadingBox').style.display = 'none';
+                // Â‰⁄—÷ ›ÌœÌÊ  Ã—Ì»Ì „Ã«‰Ì ﬂ„À«· ··‰ ÌÃ…
+                document.getElementById('previewSection').innerHTML = `
+                    <video width="100%" height="100%" controls autoplay style="border-radius:12px; object-fit: cover;">
+                        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-laser-lights-background-41763-large.mp4" type="video/mp4">
+                        „ ’›Õﬂ ·« Ìœ⁄„  ‘€Ì· «·›ÌœÌÊ.
+                    </video>
+                `;
+            }, 4000); 
+        });
+    </script>
+</body>
+</html>
