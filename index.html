@@ -2,9 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة صناعة الفيديو بالذكاء الاصطناعي الحقيقي</title>
+    <title>منصة الذكاء الاصطناعي الآمنة 100%</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { display: flex; height: 100vh; background-color: #121212; color: #fff; }
@@ -20,8 +19,6 @@
         .input-section { background: #1e1e1e; padding: 25px; border-radius: 12px; display: flex; flex-direction: column; gap: 15px; border: 1px solid #2d2d2d; }
         textarea { width: 100%; height: 100px; background: #252525; border: 1px solid #333; border-radius: 8px; color: #fff; padding: 15px; resize: none; font-size: 16px; outline: none; transition: 0.3s; }
         textarea:focus { border-color: #00adb5; }
-        .api-input { width: 100%; padding: 12px; background: #252525; border: 1px solid #333; border-radius: 8px; color: #fff; font-size: 14px; outline: none; transition: 0.3s; }
-        .api-input:focus { border-color: #00adb5; }
         .style-group { display: flex; flex-direction: column; gap: 8px; }
         .styles-container { display: flex; gap: 10px; flex-wrap: wrap; }
         .style-btn { background: #252525; border: 1px solid #333; color: #fff; padding: 8px 18px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-size: 14px; }
@@ -47,67 +44,54 @@
         </div>
     </div>
     <div class="main-content">
-        <h1>صانع الفيديوهات بالذكاء الاصطناعي الحقيقي ومجاني</h1>
+        <h1>صانع التصاميم بالذكاء الاصطناعي الآمن وبدون مفاتيح</h1>
         <div class="input-section">
-            <h3>🔑 حط مفتاح الـ API المجاني بتاعك هنا (hf_...)</h3>
-            <input type="password" id="apiTokenInput" class="api-input" placeholder="الزق المفتاح هنا...">
-            
-            <h3>2. اكتب ماذا تفعل الشخصية (اكتب بالإنجليزي لأفضل نتيجة)</h3>
-            <textarea id="promptInput" placeholder="مثال: running in space, 4k, high quality..."></textarea>
+            <h3>2. اكتب ماذا تفعل الشخصية (بالإنجليزي)</h3>
+            <textarea id="promptInput" placeholder="مثال: running, flying, smiling..."></textarea>
             <div class="style-group">
                 <h3>3. اختر الستايل</h3>
                 <div class="styles-container">
-                    <button class="style-btn active" data-style="cinematic style">سينمائي 🎬</button>
-                    <button class="style-btn" data-style="anime style, 3d anime style">أنمي 🎨</button>
-                    <button class="style-btn" data-style="3D Pixar style, cute cartoon">ثلاثي الأبعاد 🧸</button>
+                    <button class="style-btn active" data-style="cinematic">سينمائي 🎬</button>
+                    <button class="style-btn" data-style="anime">أنمي 🎨</button>
+                    <button class="style-btn" data-style="3d-render">ثلاثي الأبعاد 🧸</button>
                 </div>
             </div>
-            <button class="gen-btn" id="generateBtn">توليد الفيديو بالذكاء الاصطناعي ✨</button>
+            <button class="gen-btn" id="generateBtn">توليد الآن بأمان ✨</button>
         </div>
         <div class="preview-section" id="previewSection">
-            <div class="video-placeholder" id="placeholderText">سيظهر الفيديو الحقيقي الخاص بك هنا...</div>
-            <div class="loading-box" id="loadingBox" style="display: none;"><div class="loader"></div><p id="loadingText">جاري إرسال الطلب للسيرفر الحقيقي ومجاناً...</p></div>
+            <div class="video-placeholder" id="placeholderText">سيظهر تصميمك الآمن هنا بدون أي مفاتيح الـ API...</div>
+            <div class="loading-box" id="loadingBox" style="display: none;"><div class="loader"></div><p>جاري التوليد الفوري والمجاني...</p></div>
         </div>
     </div>
     <script>
-        let selectedCharacter = "Astronaut"; let selectedStyle = "cinematic style";
+        let selectedCharacter = "Astronaut"; let selectedStyle = "cinematic";
         document.querySelectorAll('.char-card').forEach(card => { card.addEventListener('click', () => { document.querySelectorAll('.char-card').forEach(c => c.classList.remove('active')); card.classList.add('active'); selectedCharacter = card.getAttribute('data-char'); }); });
         document.querySelectorAll('.style-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); selectedStyle = btn.getAttribute('data-style'); }); });
 
-        document.getElementById('generateBtn').addEventListener('click', async () => {
-            const token = document.getElementById('apiTokenInput').value.trim();
+        document.getElementById('generateBtn').addEventListener('click', () => {
             const userPrompt = document.getElementById('promptInput').value.trim();
-            
-            if(!token) { alert("من فضلك اكتب مفتاح الـ API بتاعك في الخانة المخصصة فوق أولاً!"); return; }
-            if(!userPrompt) { alert("من فضلك اكتب وصف الفيديو أولاً!"); return; }
+            if(!userPrompt) { alert("من فضلك اكتب الوصف أولاً!"); return; }
 
             document.getElementById('placeholderText').style.display = 'none';
             document.getElementById('loadingBox').style.display = 'flex';
-            
-            const fullPrompt = `${selectedCharacter}, ${userPrompt}, ${selectedStyle}, high quality, video animation`;
-            
-            try {
-                const response = await fetch("https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ inputs: fullPrompt })
-                });
 
-                if (!response.ok) { throw new Error("السيرفر مشغول حالياً، جرب تضغط تاني كمان ثواني"); }
+            // استخدام محرك توليد الصور المفتوح والآمن بدون أي مفاتيح نهائياً
+            const seed = Math.floor(Math.random() * 1000000);
+            const finalPrompt = encodeURIComponent(`${selectedCharacter} ${userPrompt} ${selectedStyle} 4k highly detailed`);
+            const imageUrl = `https://image.pollinations.ai/p/${finalPrompt}?width=800&height=600&seed=${seed}&nologo=true`;
 
-                const blob = await response.blob();
-                const imageUrl = URL.createObjectURL(blob);
-                
+            // صنع صورة مؤقتة للتأكد من التحميل
+            const img = new Image();
+            img.onload = function() {
                 document.getElementById('loadingBox').style.display = 'none';
                 document.getElementById('previewSection').innerHTML = `<img src="${imageUrl}" width="100%" height="100%" style="border-radius:12px; object-fit: cover;">`;
-            } catch (error) {
-                alert("حصل خطأ: " + error.message);
+            };
+            img.onerror = function() {
+                alert("عذراً، حصل ضغط على محرك التوليد الآمن، اضغط تاني");
                 document.getElementById('loadingBox').style.display = 'none';
                 document.getElementById('placeholderText').style.display = 'block';
-            }
+            };
+            img.src = imageUrl;
         });
     </script>
 </body>
