@@ -75,7 +75,7 @@
         document.querySelectorAll('.style-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); selectedStyle = btn.getAttribute('data-style'); }); });
 
         document.getElementById('generateBtn').addEventListener('click', async () => {
-          const response = await fetch("https://api-inference.huggingface.co/models/Melonie/text-to-video-anime", {
+            const token = document.getElementById('apiTokenInput').value.trim();
             const userPrompt = document.getElementById('promptInput').value.trim();
             
             if(!token) { alert("من فضلك اكتب مفتاح الـ API بتاعك في الخانة المخصصة فوق أولاً!"); return; }
@@ -87,7 +87,7 @@
             const fullPrompt = `${selectedCharacter}, ${userPrompt}, ${selectedStyle}, high quality, video animation`;
             
             try {
-                const response = await fetch("https://api-inference.huggingface.co/models/Melonie/text-to-video-anime", {
+                const response = await fetch("https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0", {
                     method: "POST",
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -99,10 +99,10 @@
                 if (!response.ok) { throw new Error("السيرفر مشغول حالياً، جرب تضغط تاني كمان ثواني"); }
 
                 const blob = await response.blob();
-                const videoUrl = URL.createObjectURL(blob);
+                const imageUrl = URL.createObjectURL(blob);
                 
                 document.getElementById('loadingBox').style.display = 'none';
-                document.getElementById('previewSection').innerHTML = `<video width="100%" height="100%" controls autoplay style="border-radius:12px; object-fit: cover;"><source src="${videoUrl}" type="video/mp4"></video>`;
+                document.getElementById('previewSection').innerHTML = `<img src="${imageUrl}" width="100%" height="100%" style="border-radius:12px; object-fit: cover;">`;
             } catch (error) {
                 alert("حصل خطأ: " + error.message);
                 document.getElementById('loadingBox').style.display = 'none';
